@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply m-0 min-h-screen bg-slate-200 antialiased;
+    color: #243f66;
+    font-family: 'Manrope', sans-serif;
+  }
+}
+
+@layer components {
+  .landing-shell {
+    @apply overflow-visible rounded-2xl border border-slate-300 bg-[#f4f7fb] shadow-[0_1.4rem_2.8rem_-1.3rem_rgba(15,23,42,.5)];
+  }
+
+  .landing-topbar {
+    position: relative;
+    isolation: isolate;
+    background-image: linear-gradient(90deg, #172d4d 0%, #152741 60%, #244a78 100%);
+  }
+
+  .landing-hero {
+    background-image:
+      radial-gradient(circle at 12% 14%, rgba(255, 255, 255, 0.42) 0 0.16rem, transparent 0.17rem),
+      radial-gradient(circle at 86% 15%, rgba(255, 255, 255, 0.46) 0 0.14rem, transparent 0.16rem),
+      radial-gradient(circle at 90% 38%, rgba(255, 255, 255, 0.35) 0 0.12rem, transparent 0.14rem),
+      radial-gradient(circle at 26% 41%, rgba(255, 255, 255, 0.33) 0 0.12rem, transparent 0.14rem),
+      linear-gradient(180deg, #d8e7f9 0%, #b5cbe4 45%, #99b4d2 100%);
+  }
+
+  .landing-image-stub {
+    @apply flex items-center justify-center bg-gradient-to-br from-[#ddecfc] via-[#bed5ee] to-[#91aed1];
+    background-image:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.03) 52%, rgba(67, 96, 137, 0.3) 100%),
+      repeating-linear-gradient(165deg, rgba(255, 255, 255, 0.14) 0, rgba(255, 255, 255, 0.14) 0.5rem, rgba(255, 255, 255, 0) 0.5rem, rgba(255, 255, 255, 0) 1.05rem);
+  }
+
+  .landing-cta {
+    background-image: linear-gradient(180deg, #5a90d8 0%, #3a68aa 100%);
+    box-shadow: 0 0.8rem 1.35rem -0.8rem rgba(19, 46, 88, 0.75);
+  }
+
+  .landing-footer {
+    background-image:
+      radial-gradient(circle at 14% 23%, rgba(188, 218, 252, 0.28) 0 0.08rem, transparent 0.1rem),
+      radial-gradient(circle at 86% 34%, rgba(188, 218, 252, 0.24) 0 0.09rem, transparent 0.11rem),
+      linear-gradient(180deg, #1a3a63 0%, #133055 52%, #122b4a 100%);
+  }
+
+  .landing-contact-icon {
+    @apply inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-300/40 text-[0.62rem] leading-none text-slate-200;
+  }
+}
+
+@layer utilities {
+  .h-100 {
+    height: 25rem;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
