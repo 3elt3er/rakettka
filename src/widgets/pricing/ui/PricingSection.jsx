@@ -13,16 +13,14 @@ export function PricingSection() {
             <div className="bg-gradient-to-r from-brand-100 to-brand-200 px-4 py-3 text-center text-4xl">
               {service.emoji}
             </div>
-            <div className="space-y-2 p-4">
-              <h3 className="text-lg font-bold text-slate-900">{service.title}</h3>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">1 тренировка / час</span>
-                <span className="font-bold text-slate-900">{service.oncePrice}</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">{service.packLabel}</span>
-                <span className="font-bold text-slate-900">{service.packPrice}</span>
-              </div>
+            <h3 className="text-lg font-bold text-slate-900">{service.title}</h3>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-slate-500">1 тренировка / час</span>
+              <span className="font-bold text-slate-900">{service.oncePrice}</span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-slate-500">{service.packLabel}</span>
+              <span className="font-bold text-slate-900">{service.packPrice}</span>
             </div>
           </article>
         ))}

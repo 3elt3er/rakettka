@@ -14,6 +14,12 @@
     color: #243f66;
     font-family: 'Manrope', sans-serif;
   }
+
+  section[id],
+  footer[id],
+  main[id] {
+    scroll-margin-top: 8.5rem;
+  }
 }
 
 @layer components {

@@ -8,6 +8,9 @@ export function HeroBanner() {
       <img
         alt={heroIllustration.alt}
         className="h-[26rem] w-full object-cover object-center sm:h-[32rem]"
+        decoding="async"
+        fetchpriority="high"
+        loading="eager"
         src={heroIllustration.src}
       />
 

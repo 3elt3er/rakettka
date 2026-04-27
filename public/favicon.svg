@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>RakeTTka</title>
+  <rect width="512" height="512" fill="transparent" />
+  <g transform="translate(48 22) skewX(-14)">
+    <text
+      x="34"
+      y="414"
+      fill="#071018"
+      font-family="Arial Black, Impact, sans-serif"
+      font-size="430"
+      font-style="italic"
+      font-weight="900"
+      stroke="#071018"
+      stroke-linejoin="round"
+      stroke-width="46"
+    >
+      P
+    </text>
+    <text
+      x="34"
+      y="414"
+      fill="#ffffff"
+      font-family="Arial Black, Impact, sans-serif"
+      font-size="430"
+      font-style="italic"
+      font-weight="900"
+    >
+      P
+    </text>
+  </g>
+</svg>

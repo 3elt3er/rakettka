@@ -1,6 +1,6 @@
 import { Container } from '@/shared/ui/Container';
 import { Button } from '@/shared/ui/Button';
-import logoImage from '@/shared/assets/Лого.png';
+import logoImage from '@/shared/assets/Лого.webp';
 
 const navItems = [
   { id: 'about', label: 'О клубе' },

@@ -151,11 +151,11 @@ export function PricingSection() {
   };
 
   return (
-    <section className="space-y-5 overflow-hidden" id="pricing">
+    <section className="overflow-hidden space-y-5" id="pricing">
       <h2 className="text-3xl font-extrabold leading-none text-brand-ink sm:text-4xl">Стоимость услуг</h2>
 
       <div
-        className={`${isDraggingUI ? 'cursor-grabbing select-none' : 'cursor-grab'} overflow-hidden pb-2 pt-6`}
+        className={`${isDraggingUI ? 'cursor-grabbing select-none' : 'cursor-grab'} overflow-hidden pb-2`}
         onPointerCancel={handlePointerEnd}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}

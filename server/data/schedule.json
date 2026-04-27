@@ -1,0 +1,84 @@
+{
+  "items": [
+    {
+      "id": "activity-1777249738382-46fc33f848b9e8",
+      "type": "tournament",
+      "dayId": "monday",
+      "time": "01:00",
+      "duration": 60,
+      "level": "Open",
+      "coach": "",
+      "price": ""
+    },
+    {
+      "id": "default-adult-monday",
+      "type": "adultGroup",
+      "dayId": "monday",
+      "time": "19:00",
+      "duration": 90,
+      "level": "Средний",
+      "coach": "Тренер клуба",
+      "price": "1500 ₽"
+    },
+    {
+      "id": "activity-1777250038135-9bbfcd6d0798c8",
+      "type": "tournament",
+      "dayId": "monday",
+      "time": "19:00",
+      "duration": 60,
+      "level": "MAX 99",
+      "coach": "",
+      "price": ""
+    },
+    {
+      "id": "default-child-tuesday",
+      "type": "childGroup",
+      "dayId": "tuesday",
+      "time": "17:00",
+      "duration": 60,
+      "level": "Начальный",
+      "coach": "Тренер клуба",
+      "price": "1000 ₽"
+    },
+    {
+      "id": "default-tournament-thursday",
+      "type": "tournament",
+      "dayId": "thursday",
+      "time": "20:00",
+      "duration": 60,
+      "level": "MAX 150",
+      "coach": "",
+      "price": ""
+    },
+    {
+      "id": "default-adult-saturday",
+      "type": "adultGroup",
+      "dayId": "saturday",
+      "time": "12:00",
+      "duration": 90,
+      "level": "Любой уровень",
+      "coach": "Тренер клуба",
+      "price": "1500 ₽"
+    },
+    {
+      "id": "activity-1777250209185-9f35fa34565a8",
+      "type": "tournament",
+      "dayId": "sunday",
+      "time": "10:00",
+      "duration": 60,
+      "level": "Open",
+      "coach": "",
+      "price": ""
+    },
+    {
+      "id": "activity-1777249474294-0a6f667cd8f498",
+      "type": "tournament",
+      "dayId": "sunday",
+      "time": "19:00",
+      "duration": 60,
+      "level": "MAX 99",
+      "coach": "",
+      "price": ""
+    }
+  ]
+}

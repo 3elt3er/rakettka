@@ -1,10 +1,10 @@
-import logoImage from '@/shared/assets/Лого.png';
+import logoImage from '@/shared/assets/Лого.webp';
 
 const navItems = [
   { id: 'about', label: 'О клубе' },
-  { id: 'rules', label: 'Правила' },
   { id: 'pricing', label: 'Цены' },
   { id: 'schedule', label: 'Расписание' },
+  { id: 'rules', label: 'Правила' },
 ];
 
 function TelegramIcon() {
@@ -31,17 +31,20 @@ function PhoneIcon() {
 
 export function TopBar() {
   return (
-    <header className="landing-topbar sticky top-0 z-20 overflow-visible border-b border-slate-500/30 px-4 pb-6 pt-5 sm:px-6 sm:pb-8 lg:px-16 lg:pb-10 lg:pt-6">
-      <a className="absolute left-[-1.75rem] top-[-2rem] z-10 sm:left-[-1.25rem] lg:left-[-1rem]" href="#top">
+    <header className="landing-topbar sticky top-0 z-20 overflow-visible border-b border-slate-500/30 px-4 pb-6 pt-5">
+      <a className="absolute left-[0rem] top-[-4rem] z-10" href="#top">
         <img
           alt="RakeTTka"
-          className="h-80 w-auto drop-shadow-[0_1.1rem_1.7rem_rgba(10,24,45,0.45)]"
+          className="h-60 w-auto"
+          decoding="async"
+          fetchpriority="high"
+          loading="eager"
           src={logoImage}
         />
       </a>
 
       <div className="flex items-center gap-3 pl-[7rem] sm:pl-[9.5rem] lg:min-h-[4rem] lg:gap-5 lg:pl-[15rem] xl:pl-[19rem]">
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 px-2 font-bold tracking-tight text-slate-100 md:flex lg:gap-5 lg:text-[1.2rem] xl:gap-7 xl:text-[1.5rem]">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 px-2 text-[1.2rem] font-bold tracking-tight text-slate-100 md:flex lg:gap-5 lg:text-[1.35rem] xl:gap-6 xl:text-[1.45rem]">
           {navItems.map((item) => (
             <a
               className="truncate whitespace-nowrap text-slate-100/95 transition hover:-translate-y-0.5 hover:text-white"
@@ -56,7 +59,7 @@ export function TopBar() {
         <div className="ml-auto flex shrink-0 items-center gap-3 sm:gap-4">
           <a
             aria-label="Telegram RakeTTka"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-[#4d82dc] to-[#3d6fca] text-white shadow-[0_1rem_2rem_-1rem_rgba(75,129,220,0.9)] transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#4e7fdd] sm:h-14 sm:w-14 lg:h-[4.2rem] lg:w-[4.2rem]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-[#4d82dc] to-[#3d6fca] text-white shadow-[0_1rem_2rem_-1rem_rgba(75,129,220,0.9)] transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#4e7fdd] sm:h-9 sm:w-9 lg:h-14 lg:w-14"
             href="https://t.me/RakeTTka"
             rel="noopener noreferrer"
             target="_blank"
@@ -66,7 +69,7 @@ export function TopBar() {
 
           <a
             aria-label="Позвонить в RakeTTka"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-[#4d82dc] to-[#3d6fca] text-white shadow-[0_1rem_2rem_-1rem_rgba(75,129,220,0.9)] transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#4e7fdd] sm:h-14 sm:w-14 lg:h-[4.2rem] lg:w-[4.2rem]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-[#4d82dc] to-[#3d6fca] text-white shadow-[0_1rem_2rem_-1rem_rgba(75,129,220,0.9)] transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#4e7fdd] sm:h-9 sm:w-9 lg:h-14 lg:w-14"
             href="tel:+79060668806"
           >
             <PhoneIcon />

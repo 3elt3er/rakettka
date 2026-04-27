@@ -2,7 +2,7 @@ import { SectionTitle } from '@/shared/ui/SectionTitle';
 
 export function AboutSection() {
   return (
-    <section id="about" className="space-y-5">
+    <section id="about">
       <div className="flex flex-wrap gap-2">
         <span className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
           О клубе

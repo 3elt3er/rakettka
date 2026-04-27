@@ -1,11 +1,11 @@
-import tableRentImage from '@/shared/assets/Аренда стола.svg';
-import adultGroupImage from '@/shared/assets/Взрослая групповая тренировка.svg';
+import tableRentImage from '@/shared/assets/Аренда стола.webp';
+import adultGroupImage from '@/shared/assets/Взрослая групповая тренировка.webp';
 import heroImage from '@/shared/assets/Главная страница.svg';
-import childGroupImage from '@/shared/assets/Детская групповая тренировка.svg';
-import personalTrainingImage from '@/shared/assets/Индивидуальная тренировка.svg';
+import childGroupImage from '@/shared/assets/Детская групповая тренировка.webp';
+import personalTrainingImage from '@/shared/assets/Индивидуальная тренировка.webp';
 import clubRulesImage from '@/shared/assets/Правила клуба.svg';
-import tournamentsImage from '@/shared/assets/Проведение турниров.svg';
-import robotTrainingImage from '@/shared/assets/Тренировка с роботом.svg';
+import tournamentsImage from '@/shared/assets/Проведение турниров.webp';
+import robotTrainingImage from '@/shared/assets/Тренировка с роботом.webp';
 
 export const illustrations = {
   hero: {
@@ -57,6 +57,7 @@ export const schedulePromoIllustration = illustrations.childGroupTraining;
 export const serviceIllustrationById = {
   personal: illustrations.personalTraining,
   group: illustrations.adultGroupTraining,
+  childGroup: illustrations.childGroupTraining,
   table: illustrations.tableRent,
   robot: illustrations.robotTraining,
 };
