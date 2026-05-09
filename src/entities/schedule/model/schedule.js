@@ -56,9 +56,14 @@ export const defaultScheduleItems = [
   {
     id: 'default-tournament-thursday',
     type: 'tournament',
-    dayId: 'thursday',
-    time: '20:00',
-    level: 'MAX 150',
+    dayId: 'sunday',
+    date: '2026-05-10',
+    time: '19:00',
+    duration: 60,
+    level: 'МАКС 150',
+    format: 'Настольный теннис',
+    price: '600 ₽',
+    registrationUrl: 'https://rttf.ru/tournaments/224461',
   },
   {
     id: 'default-adult-saturday',
