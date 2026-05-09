@@ -55,7 +55,7 @@ export function ContactsFooter() {
 
   return (
     <section className="sticky bottom-0 z-20" id="contacts">
-      <div className="landing-footer relative border-t border-white/10 px-4 pb-3 pt-7 text-xs font-semibold text-slate-100 sm:px-6 sm:pb-4 sm:pt-8 sm:text-sm">
+      <div className="landing-footer relative border-t border-white/10 px-4 pb-3 pt-5 text-xs font-semibold text-slate-100 sm:px-6 sm:pb-4 sm:pt-4 sm:text-sm">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
           <button
             className="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#4d82dc] to-[#2f62b4] px-6 py-2 text-base font-black uppercase tracking-wide text-white shadow-[0_1rem_1.8rem_-0.9rem_rgba(47,98,180,0.95)] ring-2 ring-white/25 transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#3d72c8] sm:px-11 sm:text-lg"
@@ -66,7 +66,7 @@ export function ContactsFooter() {
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center justify-around gap-x-8 gap-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
           <div className="flex items-center gap-2">
             <span className={footerIconClassName}>
               <LocationIcon />

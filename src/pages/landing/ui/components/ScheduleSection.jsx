@@ -173,6 +173,17 @@ function TelegramIcon() {
   );
 }
 
+function PhoneIcon() {
+  return (
+    <svg aria-hidden="true" className="h-4 w-4" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.32.57 3.57.57.56 0 1 .44 1 1V20c0 .56-.44 1-1 1C10.06 21 3 13.94 3 5c0-.56.44-1 1-1h3.5c.56 0 1 .44 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 function ActivityCard({ item }) {
   const activity = getActivityType(item.type);
   const illustration = activityIllustrationByType[item.type] || illustrations.adultGroupTraining;
@@ -237,19 +248,33 @@ function ActivityCard({ item }) {
             />
           </div>
 
-          {registrationUrl ? (
+          {isGroupTraining ? (
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <a
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#229ed9] px-4 py-2.5 text-sm font-extrabold text-white shadow-[0_0.9rem_1.5rem_-1rem_rgba(34,158,217,0.9)] transition hover:-translate-y-0.5 hover:bg-[#1d91ca]"
+                href={registrationUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Записаться
+                <TelegramIcon />
+              </a>
+              <a
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#34c759] px-4 py-2.5 text-sm font-extrabold text-white shadow-[0_0.9rem_1.5rem_-1rem_rgba(52,199,89,0.9)] transition hover:-translate-y-0.5 hover:bg-[#30b753]"
+                href="tel:+79060668806"
+              >
+                Позвонить
+                <PhoneIcon />
+              </a>
+            </div>
+          ) : registrationUrl ? (
             <a
-              className={`mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-extrabold text-white transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 ${
-                isGroupTraining
-                  ? 'bg-[#229ed9] shadow-[0_0.9rem_1.5rem_-1rem_rgba(34,158,217,0.9)] hover:bg-[#1d91ca]'
-                  : 'bg-[#34c759] shadow-[0_0.9rem_1.5rem_-1rem_rgba(52,199,89,0.9)] hover:bg-[#30b753]'
-              }`}
+              className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-[#34c759] px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_0.9rem_1.5rem_-1rem_rgba(52,199,89,0.9)] transition hover:-translate-y-0.5 hover:bg-[#30b753]"
               href={registrationUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
               Записаться
-              {isGroupTraining && <TelegramIcon />}
             </a>
           ) : (
             <button className="primary-button mt-4 w-full" disabled type="button">

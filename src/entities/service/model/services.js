@@ -45,7 +45,7 @@ export const services = [
     title: 'Аренда стола + робот',
     onceLabel: 'Пн-пт 08:00-17:00',
     oncePrice: '1200 ₽/час',
-    packLabel: 'Пн-пт 17:00-22:00; сб-вс весь день',
+    packLabel: 'Пн-пт 17:00-22:00; сб-вс и праздники',
     packPrice: '1400 ₽/час',
     image: serviceIllustrationById.robot,
   },
