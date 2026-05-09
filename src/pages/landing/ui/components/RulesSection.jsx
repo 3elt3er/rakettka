@@ -73,13 +73,13 @@ export function RulesSection() {
   const [isRulesOpen, setIsRulesOpen] = useState(false);
 
   return (
-    <section id="rules">
+    <section className="section-block" id="rules">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
-        <div>
-          <h2 className="text-3xl font-extrabold leading-none text-brand-ink sm:text-4xl">
+        <div className="min-w-0 space-y-3">
+          <h2 className="section-title">
             Правила посещения клуба настольного тенниса RakeTTka
           </h2>
-          <p className="mt-2 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
+          <p className="section-lead">
             Посещая клуб, бронируя услуги или производя оплату, Клиент подтверждает согласие с настоящими Правилами.
           </p>
         </div>
@@ -87,7 +87,7 @@ export function RulesSection() {
         <button
           aria-controls="rules-content"
           aria-expanded={isRulesOpen}
-          className="group mt-1 flex h-12 w-12 items-center justify-center rounded-full border border-[#1f5ba8]/20 bg-white/80 text-[#1f5ba8] shadow-[0_0.8rem_1.8rem_-1.3rem_rgba(15,23,42,0.45)] transition hover:-translate-y-0.5 hover:bg-white sm:h-14 sm:w-14"
+          className="icon-button group mt-1 text-[#1f5ba8]"
           onClick={() => setIsRulesOpen((currentValue) => !currentValue)}
           type="button"
         >
@@ -111,8 +111,8 @@ export function RulesSection() {
         id="rules-content"
       >
         <div className="min-h-0 overflow-hidden">
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem] mt-3">
-            <article className="overflow-hidden rounded-[1.75rem] border border-white/80 bg-white/70 shadow-[0_1rem_2.2rem_-1.7rem_rgba(15,23,42,0.45)]">
+          <div className="mt-3 grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem]">
+            <article className="surface-card overflow-hidden bg-white/70">
               <ol className="divide-y divide-slate-200/80">
                 {rules.map((rule, index) => (
                   <li className="bg-white/65 px-4 py-5 sm:px-5" key={rule.title}>
@@ -125,7 +125,7 @@ export function RulesSection() {
 
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                          <h3 className="text-lg font-extrabold leading-tight text-brand-ink sm:text-xl">
+                          <h3 className="text-lg font-extrabold leading-tight text-brand-ink">
                             {rule.title}
                           </h3>
                         </div>
@@ -159,16 +159,16 @@ export function RulesSection() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:self-start">
               <ImageStub
                 alt={rulesIllustration.alt}
-                className="h-[18rem] rounded-[1.75rem] border border-white/70 bg-white/80 sm:h-[20rem] lg:h-[22rem]"
+                className="h-[18rem] rounded-[1.5rem] border border-white/70 bg-white/80 sm:h-[20rem] lg:h-[22rem]"
                 imageFit="contain"
                 label={rulesIllustration.label}
                 labelClassName="text-xl sm:text-2xl"
                 src={rulesIllustration.src}
               />
 
-              <div className="rounded-[1.75rem] border border-white/70 bg-white/80 px-5 py-5 text-brand-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] sm:px-6 sm:py-6">
+              <div className="surface-card px-5 py-5 text-brand-ink sm:px-6 sm:py-6">
                 <h3 className="text-xl font-extrabold leading-tight">Немного от нас</h3>
-                <p className="mt-3 text-base leading-relaxed text-slate-600">
+                <p className="mt-3 text-base leading-[1.75] text-slate-600">
                   Если какой-то пункт требует уточнения, обратитесь к администратору до начала тренировки, аренды или
                   другого пользования услугами клуба.
                 </p>

@@ -27,15 +27,13 @@ export function PricingSection() {
   const loopedServices = useMemo(() => [...services, ...services, ...services], []);
 
   const normalizeIndex = (index) => {
-    if (index < services.length) {
-      return index + services.length;
+    const serviceCount = services.length;
+
+    if (serviceCount === 0) {
+      return 0;
     }
 
-    if (index >= services.length * 2) {
-      return index - services.length;
-    }
-
-    return index;
+    return ((((index - serviceCount) % serviceCount) + serviceCount) % serviceCount) + serviceCount;
   };
 
   const pauseAutoplay = () => {
@@ -74,7 +72,7 @@ export function PricingSection() {
 
     const timeoutId = window.setTimeout(() => {
       setIsTransitionEnabled(true);
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex((prev) => normalizeIndex(prev) + 1);
     }, delay);
 
     return () => window.clearTimeout(timeoutId);
@@ -130,12 +128,12 @@ export function PricingSection() {
     setIsTransitionEnabled(true);
 
     if (offset > threshold) {
-      setCurrentIndex((prev) => prev - 1);
+      setCurrentIndex((prev) => normalizeIndex(prev) - 1);
       return;
     }
 
     if (offset < -threshold) {
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex((prev) => normalizeIndex(prev) + 1);
       return;
     }
 
@@ -151,8 +149,10 @@ export function PricingSection() {
   };
 
   return (
-    <section className="overflow-hidden space-y-5" id="pricing">
-      <h2 className="text-3xl font-extrabold leading-none text-brand-ink sm:text-4xl">Стоимость услуг</h2>
+    <section className="section-block overflow-hidden" id="pricing">
+      <div className="section-header">
+        <h2 className="section-title">Стоимость услуг</h2>
+      </div>
 
       <div
         className={`${isDraggingUI ? 'cursor-grabbing select-none' : 'cursor-grab'} overflow-hidden pb-2`}

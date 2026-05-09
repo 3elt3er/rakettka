@@ -106,11 +106,14 @@ function normalizeSchedule(payload) {
       id: String(item.id || `activity-${Date.now()}`),
       type: String(item.type || 'adultGroup'),
       dayId: String(item.dayId || 'monday'),
+      date: String(item.date || ''),
       time: String(item.time || '10:00'),
       duration: Number(item.duration) || 60,
       level: String(item.level || ''),
+      format: String(item.format || ''),
       coach: String(item.coach || ''),
       price: String(item.price || ''),
+      registrationUrl: String(item.registrationUrl || ''),
     })),
   };
 }

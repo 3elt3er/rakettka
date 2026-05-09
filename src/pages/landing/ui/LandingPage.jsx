@@ -14,13 +14,13 @@ export function LandingPage() {
           <TopBar />
           <HeroBanner />
 
-          <div className="space-y-12 bg-[#f4f7fb] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+          <div className="space-y-12 bg-[#f4f7fb] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
             <AboutSection />
-            <div className="-mx-4 h-px bg-slate-300 sm:-mx-6 lg:-mx-8" />
+            <div className="-mx-4 h-px bg-slate-300 sm:-mx-6 lg:-mx-8" aria-hidden="true" />
             <PricingSection />
-            <div className="-mx-4 h-px bg-slate-300 sm:-mx-6 lg:-mx-8" />
+            <div className="-mx-4 h-px bg-slate-300 sm:-mx-6 lg:-mx-8" aria-hidden="true" />
             <ScheduleSection />
-            <div className="-mx-4 h-px bg-slate-300 sm:-mx-6 lg:-mx-8" />
+            <div className="-mx-4 h-px bg-slate-300 sm:-mx-6 lg:-mx-8" aria-hidden="true" />
             <RulesSection />
           </div>
 

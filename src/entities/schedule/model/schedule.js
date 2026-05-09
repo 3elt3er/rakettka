@@ -27,13 +27,10 @@ export const activityTypes = {
   tournament: {
     id: 'tournament',
     label: 'Турнир',
-    title: 'Турнир клуба',
+    title: 'Турнир',
     badge: 'Турнир',
   },
 };
-
-export const trainingLevels = ['Начальный', 'Средний', 'Продвинутый', 'Любой уровень'];
-export const tournamentLevels = ['MAX 99', 'MAX 150', 'MAX 300', 'Open'];
 
 export const defaultScheduleItems = [
   {
@@ -75,16 +72,39 @@ export const defaultScheduleItems = [
   },
 ];
 
+const dayIdByDateDay = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+function getDayIdFromDate(date) {
+  if (!date) {
+    return 'monday';
+  }
+
+  const parsedDate = new Date(`${date}T00:00:00`);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return 'monday';
+  }
+
+  return dayIdByDateDay[parsedDate.getDay()] || 'monday';
+}
+
 export function createScheduleItem(values) {
+  const isTournament = values.type === 'tournament';
+  const date = values.date || '';
+  const price = values.price?.trim() || (isTournament ? '600 ₽' : '');
+
   return {
     id: `activity-${Date.now()}-${Math.random().toString(16).slice(2)}`,
     type: values.type,
-    dayId: values.dayId,
+    dayId: getDayIdFromDate(date),
+    date,
     time: values.time,
-    duration: Number(values.duration) || 60,
+    duration: isTournament ? 60 : Number(values.duration) || 60,
     level: values.level,
-    coach: values.coach?.trim() || '',
-    price: values.price?.trim() || '',
+    format: values.format?.trim() || '',
+    coach: isTournament ? '' : values.coach?.trim() || '',
+    price: /^\d+$/.test(price) ? `${price} ₽` : price,
+    registrationUrl: isTournament ? values.registrationUrl?.trim() || '' : '',
   };
 }
 

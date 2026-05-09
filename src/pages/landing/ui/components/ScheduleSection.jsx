@@ -9,103 +9,285 @@ import {
   saveScheduleToApi,
   saveScheduleToStorage,
   sortScheduleItems,
-  tournamentLevels,
-  trainingLevels,
   weekDays,
 } from '@/entities/schedule/model/schedule';
+import { illustrations } from '@/shared/assets/illustrations';
+
+const groupRegistrationUrl = 'https://t.me/RakeTTka';
+
+const eventFormats = ['Настольный теннис', 'Мини теннис', 'Шахпонг', 'Пингпонг', 'Парный'];
+
+const activityIllustrationByType = {
+  adultGroup: illustrations.adultGroupTraining,
+  childGroup: illustrations.childGroupTraining,
+  tournament: illustrations.tournaments,
+};
+
+const dayNumberById = {
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+  sunday: 0,
+};
+
+const dayIdByDateDay = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+function getDayIdFromDate(date) {
+  if (!date) {
+    return 'monday';
+  }
+
+  const parsedDate = new Date(`${date}T00:00:00`);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return 'monday';
+  }
+
+  return dayIdByDateDay[parsedDate.getDay()] || 'monday';
+}
+
+function getUpcomingDate(dayId) {
+  const today = new Date();
+  const targetDay = dayNumberById[dayId] ?? 1;
+  const daysUntilTarget = (targetDay - today.getDay() + 7) % 7;
+  const eventDate = new Date(today);
+
+  eventDate.setHours(0, 0, 0, 0);
+  eventDate.setDate(today.getDate() + daysUntilTarget);
+
+  return eventDate;
+}
+
+function getDefaultEventDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function getEventDate(item) {
+  if (item.date) {
+    const [year, month, day] = String(item.date).split('-').map(Number);
+
+    if (year && month && day) {
+      return new Date(year, month - 1, day);
+    }
+  }
+
+  return getUpcomingDate(item.dayId);
+}
+
+function getEventDateLabel(item) {
+  return new Intl.DateTimeFormat('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    weekday: 'long',
+  }).format(getEventDate(item));
+}
+
+function getAdminDateLabel(item) {
+  return new Intl.DateTimeFormat('ru-RU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(getEventDate(item));
+}
+
+function getEventDateTime(item) {
+  const [hours = '0', minutes = '0'] = String(item.time).split(':');
+  const date = getEventDate(item);
+
+  date.setHours(Number(hours), Number(minutes), 0, 0);
+
+  return date.getTime();
+}
+
+function formatPrice(price) {
+  const trimmedPrice = price?.trim();
+
+  if (!trimmedPrice) {
+    return '';
+  }
+
+  return /^\d+$/.test(trimmedPrice) ? `${trimmedPrice} ₽` : trimmedPrice;
+}
+
+function mergeScheduleItems(primaryItems, fallbackItems) {
+  const fallbackById = new Map(fallbackItems.map((item) => [item.id, item]));
+  const mergedItems = primaryItems.map((item) => {
+    const fallbackItem = fallbackById.get(item.id);
+
+    if (!fallbackItem) {
+      return item;
+    }
+
+    return {
+      ...fallbackItem,
+      ...item,
+      date: item.date || fallbackItem.date || '',
+      format: item.format || fallbackItem.format || '',
+      registrationUrl: item.registrationUrl || fallbackItem.registrationUrl || '',
+    };
+  });
+
+  fallbackItems.forEach((item) => {
+    if (!mergedItems.some((mergedItem) => mergedItem.id === item.id)) {
+      mergedItems.push(item);
+    }
+  });
+
+  return mergedItems;
+}
 
 const initialFormState = {
   type: 'adultGroup',
   dayId: 'monday',
+  date: getDefaultEventDate(),
   time: '19:00',
   duration: '60',
   level: 'Начальный',
+  format: eventFormats[0],
   coach: '',
   price: '',
+  registrationUrl: '',
 };
+
+function normalizeExternalUrl(url) {
+  const trimmedUrl = url?.trim();
+
+  if (!trimmedUrl) {
+    return '';
+  }
+
+  return /^https?:\/\//i.test(trimmedUrl) ? trimmedUrl : `https://${trimmedUrl}`;
+}
+
+function TelegramIcon() {
+  return (
+    <svg aria-hidden="true" className="h-4 w-4" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M21.2 4.36 18.1 19.02c-.23 1.04-.84 1.3-1.7.82l-4.71-3.47-2.27 2.19c-.25.25-.46.46-.95.46l.34-4.84 8.82-7.97c.38-.34-.08-.53-.59-.19L6.14 12.9l-4.69-1.47c-1.02-.32-1.04-1.02.21-1.51L20.02 2.8c.86-.32 1.62.19 1.18 1.56Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 function ActivityCard({ item }) {
   const activity = getActivityType(item.type);
+  const illustration = activityIllustrationByType[item.type] || illustrations.adultGroupTraining;
   const isTournament = item.type === 'tournament';
+  const isGroupTraining = item.type === 'adultGroup' || item.type === 'childGroup';
+  const registrationUrl = isTournament ? normalizeExternalUrl(item.registrationUrl) : groupRegistrationUrl;
+  const detailItems = [
+    { label: 'Уровень', value: item.level },
+    { label: 'Формат', value: item.format || (isTournament ? 'Клубный турнир по рейтингу' : '') },
+    !isTournament ? { label: 'Длительность', value: `${item.duration} мин` } : null,
+    !isTournament ? { label: 'Тренер', value: item.coach } : null,
+    { label: 'Стоимость', value: formatPrice(item.price || (isTournament ? '600 ₽' : '')) },
+  ].filter((detail) => detail?.value);
 
   return (
-    <article className="grid gap-5 rounded-[1.6rem] border border-[#c7d6e9] bg-white p-5 transition hover:-translate-y-1 hover:shadow-[0_1.2rem_2.5rem_-1.3rem_rgba(20,50,85,0.65)] md:grid-cols-[7.5rem_minmax(0,1fr)_auto] md:items-center">
-      <div className="rounded-[1.25rem] bg-[#14345d] px-4 py-4 text-white">
-        <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-100">Старт</p>
-        <p className="mt-1 text-3xl font-black leading-none">{item.time}</p>
-      </div>
+    <article className="group overflow-hidden rounded-[2rem] border border-[#c7d6e9] bg-white transition hover:-translate-y-1 hover:shadow-[0_1.2rem_2.6rem_-1.3rem_rgba(20,50,85,0.55)]">
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="flex min-w-0 flex-col p-5 sm:p-6 lg:p-7">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-[#edf5ff] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-[#1f5ba8]">
+              {activity.badge}
+            </span>
+            <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-red-600">
+              Требуется предварительная регистрация
+            </span>
+          </div>
 
-      <div className="min-w-0">
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-[#edf5ff] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-[#1f5ba8]">
-            {activity.badge}
-          </span>
-          <span className="rounded-full bg-[#f4f7fb] px-3 py-1 text-xs font-bold text-brand-ink">{item.level}</span>
+          <h3 className="mt-4 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-brand-ink">
+            {activity.title}
+          </h3>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-[1.25rem] bg-[#14345d] px-4 py-4 text-white">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-100">Дата мероприятия</p>
+              <p className="mt-2 text-xl font-black leading-none sm:text-2xl">{getEventDateLabel(item)}</p>
+            </div>
+
+            <div className="rounded-[1.25rem] bg-[#eef5ff] px-4 py-4 text-brand-ink">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#1f5ba8]">Старт</p>
+              <p className="mt-2 text-xl font-black leading-none sm:text-2xl">{item.time}</p>
+            </div>
+          </div>
+
+          <dl className="mt-4 grid flex-1 auto-rows-fr gap-3 sm:grid-cols-2">
+            {detailItems.map((detail) => (
+              <div className="flex min-h-24 flex-col justify-center rounded-[1.15rem] bg-[#f4f7fb] px-4 py-3" key={detail.label}>
+                <dt className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#1f5ba8]">{detail.label}</dt>
+                <dd className="mt-1 text-base font-bold leading-snug text-brand-ink">{detail.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        <h3 className="text-xl font-extrabold leading-tight text-brand-ink sm:text-2xl">{activity.title}</h3>
+        <aside className="flex justify-center min-h-[22rem] flex-col p-4">
+          <div className="relative aspect-[5/4] overflow-hidden rounded-[1.5rem]">
+            <img
+              alt={illustration.alt}
+              className="absolute inset-0 h-full w-full object-cover object-top"
+              decoding="async"
+              loading="lazy"
+              src={illustration.src}
+            />
+          </div>
 
-        <dl className="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-3">
-          {!isTournament && (
-            <div>
-              <dt className="font-bold text-brand-ink">Длительность</dt>
-              <dd>{item.duration} мин</dd>
-            </div>
+          {registrationUrl ? (
+            <a
+              className={`mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-extrabold text-white transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 ${
+                isGroupTraining
+                  ? 'bg-[#229ed9] shadow-[0_0.9rem_1.5rem_-1rem_rgba(34,158,217,0.9)] hover:bg-[#1d91ca]'
+                  : 'bg-[#34c759] shadow-[0_0.9rem_1.5rem_-1rem_rgba(52,199,89,0.9)] hover:bg-[#30b753]'
+              }`}
+              href={registrationUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Записаться
+              {isGroupTraining && <TelegramIcon />}
+            </a>
+          ) : (
+            <button className="primary-button mt-4 w-full" disabled type="button">
+              Ссылка скоро
+            </button>
           )}
-          {!isTournament && (
-            <div>
-              <dt className="font-bold text-brand-ink">Тренер</dt>
-              <dd>{item.coach}</dd>
-            </div>
-          )}
-          {!isTournament && (
-            <div>
-              <dt className="font-bold text-brand-ink">Стоимость</dt>
-              <dd>{item.price}</dd>
-            </div>
-          )}
-          {isTournament && (
-            <div>
-              <dt className="font-bold text-brand-ink">Формат</dt>
-              <dd>Клубный турнир по рейтингу</dd>
-            </div>
-          )}
-        </dl>
+        </aside>
       </div>
-
-      <a
-        className="inline-flex items-center justify-center rounded-full bg-[#1f5ba8] px-5 py-2.5 text-sm font-extrabold text-white transition hover:bg-[#14345d] md:self-center"
-        href="https://rakettka.rubitime.ru/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Записаться
-      </a>
     </article>
   );
 }
 
-function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, onReset, saveStatus }) {
-  const [form, setForm] = useState({ ...initialFormState, dayId: activeDayId });
+function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, saveStatus }) {
+  const [form, setForm] = useState(initialFormState);
   const [formError, setFormError] = useState('');
   const selectedType = activityTypes[form.type];
   const isTournament = form.type === 'tournament';
 
-  useEffect(() => {
-    setForm((currentForm) => ({ ...currentForm, dayId: activeDayId }));
-  }, [activeDayId]);
-
   function updateForm(field, value) {
     setFormError('');
     setForm((currentForm) => {
+      if (field === 'date') {
+        return {
+          ...currentForm,
+          date: value,
+          dayId: getDayIdFromDate(value),
+        };
+      }
+
       if (field === 'type') {
         return {
           ...currentForm,
           type: value,
           duration: value === 'tournament' ? '' : currentForm.duration || '60',
-          level: value === 'tournament' ? tournamentLevels[0] : trainingLevels[0],
-          price: value === 'tournament' ? '' : currentForm.price,
+          level: '',
+          price: value === 'tournament' ? currentForm.price || '600 ₽' : currentForm.price,
           coach: value === 'tournament' ? '' : currentForm.coach,
+          registrationUrl: value === 'tournament' ? currentForm.registrationUrl : '',
         };
       }
 
@@ -116,8 +298,8 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (!form.dayId || !form.time || !form.level) {
-      setFormError('Заполните день, время и уровень.');
+    if (!form.date || !form.time || !form.level) {
+      setFormError('Заполните дату, время и уровень.');
       return;
     }
 
@@ -126,13 +308,19 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
       return;
     }
 
+    if (isTournament && !form.registrationUrl.trim()) {
+      setFormError('Для турнира укажите ссылку для регистрации.');
+      return;
+    }
+
     try {
       await onAddItem(createScheduleItem(form));
       setForm((currentForm) => ({
         ...initialFormState,
         type: currentForm.type,
-        dayId: currentForm.dayId,
-        level: currentForm.type === 'tournament' ? tournamentLevels[0] : trainingLevels[0],
+        dayId: getDayIdFromDate(currentForm.date),
+        date: currentForm.date,
+        level: '',
       }));
     } catch (error) {
       setFormError(error.message || 'Не удалось добавить активность.');
@@ -140,15 +328,15 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
   }
 
   return (
-    <div className="rounded-[1.8rem] border border-[#c7d6e9] bg-white p-4 sm:p-5">
+    <div className="surface-card p-4 sm:p-5">
       <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#1f5ba8]">Админка расписания</p>
-          <h3 className="text-2xl font-extrabold text-brand-ink">Активности текущей недели</h3>
+          <p className="section-kicker">Админка расписания</p>
+          <h3 className="text-xl font-extrabold text-brand-ink">Активности текущей недели</h3>
           <p className="mt-1 text-sm text-slate-500">{saveStatus}</p>
         </div>
         <button
-          className="self-start rounded-full border border-[#c7d6e9] px-4 py-2 text-sm font-bold text-brand-ink transition hover:bg-[#eef5ff] disabled:cursor-not-allowed disabled:opacity-60"
+          className="secondary-button self-start"
           disabled={isSaving}
           onClick={onReset}
           type="button"
@@ -157,11 +345,11 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
         </button>
       </div>
 
-      <form className="grid gap-3 lg:grid-cols-6" onSubmit={handleSubmit}>
-        <label className="space-y-1 text-sm font-bold text-brand-ink lg:col-span-2">
+      <form className="grid gap-4 md:grid-cols-3" onSubmit={handleSubmit}>
+        <label className="space-y-1 text-sm font-bold text-brand-ink">
           Тип активности
           <select
-            className="w-full rounded-2xl border border-[#c7d6e9] bg-[#f7fbff] px-4 py-3 text-base outline-none transition focus:border-[#1f5ba8]"
+            className="form-control"
             disabled={isSaving}
             onChange={(event) => updateForm('type', event.target.value)}
             value={form.type}
@@ -175,25 +363,20 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
         </label>
 
         <label className="space-y-1 text-sm font-bold text-brand-ink">
-          День
-          <select
-            className="w-full rounded-2xl border border-[#c7d6e9] bg-[#f7fbff] px-4 py-3 text-base outline-none transition focus:border-[#1f5ba8]"
+          Дата
+          <input
+            className="form-control"
             disabled={isSaving}
-            onChange={(event) => updateForm('dayId', event.target.value)}
-            value={form.dayId}
-          >
-            {weekDays.map((day) => (
-              <option key={day.id} value={day.id}>
-                {day.label}
-              </option>
-            ))}
-          </select>
+            onChange={(event) => updateForm('date', event.target.value)}
+            type="date"
+            value={form.date}
+          />
         </label>
 
         <label className="space-y-1 text-sm font-bold text-brand-ink">
           Время
           <input
-            className="w-full rounded-2xl border border-[#c7d6e9] bg-[#f7fbff] px-4 py-3 text-base outline-none transition focus:border-[#1f5ba8]"
+            className="form-control"
             disabled={isSaving}
             onChange={(event) => updateForm('time', event.target.value)}
             type="time"
@@ -205,7 +388,7 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
           <label className="space-y-1 text-sm font-bold text-brand-ink">
             Длительность
             <input
-              className="w-full rounded-2xl border border-[#c7d6e9] bg-[#f7fbff] px-4 py-3 text-base outline-none transition focus:border-[#1f5ba8]"
+              className="form-control"
               disabled={isSaving}
               min="30"
               onChange={(event) => updateForm('duration', event.target.value)}
@@ -217,16 +400,28 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
         )}
 
         <label className="space-y-1 text-sm font-bold text-brand-ink">
-          {isTournament ? 'Уровень в поинтах' : 'Уровень'}
-          <select
-            className="w-full rounded-2xl border border-[#c7d6e9] bg-[#f7fbff] px-4 py-3 text-base outline-none transition focus:border-[#1f5ba8]"
+          Уровень
+          <input
+            className="form-control"
             disabled={isSaving}
             onChange={(event) => updateForm('level', event.target.value)}
+            placeholder={isTournament ? 'Например: MAX 150' : 'Например: Средний'}
+            type="text"
             value={form.level}
+          />
+        </label>
+
+        <label className="space-y-1 text-sm font-bold text-brand-ink">
+          Формат
+          <select
+            className="form-control"
+            disabled={isSaving}
+            onChange={(event) => updateForm('format', event.target.value)}
+            value={form.format}
           >
-            {(isTournament ? tournamentLevels : trainingLevels).map((level) => (
-              <option key={level} value={level}>
-                {level}
+            {eventFormats.map((format) => (
+              <option key={format} value={format}>
+                {format}
               </option>
             ))}
           </select>
@@ -234,10 +429,10 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
 
         {!isTournament && (
           <>
-            <label className="space-y-1 text-sm font-bold text-brand-ink lg:col-span-2">
+            <label className="space-y-1 text-sm font-bold text-brand-ink md:col-span-2">
               Тренер
               <input
-                className="w-full rounded-2xl border border-[#c7d6e9] bg-[#f7fbff] px-4 py-3 text-base outline-none transition focus:border-[#1f5ba8]"
+                className="form-control"
                 disabled={isSaving}
                 onChange={(event) => updateForm('coach', event.target.value)}
                 placeholder="Например: Иван Иванов"
@@ -245,23 +440,38 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
                 value={form.coach}
               />
             </label>
-            <label className="space-y-1 text-sm font-bold text-brand-ink">
-              Цена
-              <input
-                className="w-full rounded-2xl border border-[#c7d6e9] bg-[#f7fbff] px-4 py-3 text-base outline-none transition focus:border-[#1f5ba8]"
-                disabled={isSaving}
-                onChange={(event) => updateForm('price', event.target.value)}
-                placeholder="1500 ₽"
-                type="text"
-                value={form.price}
-              />
-            </label>
           </>
         )}
 
-        <div className="flex items-end lg:col-span-2">
+        <label className="space-y-1 text-sm font-bold text-brand-ink">
+          Стоимость
+          <input
+            className="form-control"
+            disabled={isSaving}
+            onChange={(event) => updateForm('price', event.target.value)}
+            placeholder={isTournament ? '600 ₽' : '1500 ₽'}
+            type="text"
+            value={form.price}
+          />
+        </label>
+
+        {isTournament && (
+          <label className="space-y-1 text-sm font-bold text-brand-ink md:col-span-2">
+            Ссылка для регистрации
+            <input
+              className="form-control"
+              disabled={isSaving}
+              onChange={(event) => updateForm('registrationUrl', event.target.value)}
+              placeholder="https://..."
+              type="text"
+              value={form.registrationUrl}
+            />
+          </label>
+        )}
+
+        <div className="flex items-end md:col-span-3">
           <button
-            className="w-full rounded-2xl bg-[#14345d] px-5 py-3 text-base font-extrabold text-white transition hover:bg-[#1f5ba8] disabled:cursor-not-allowed disabled:opacity-60"
+            className="primary-button w-full"
             disabled={isSaving}
             type="submit"
           >
@@ -279,7 +489,6 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
           </p>
         ) : (
           items.map((item) => {
-            const day = weekDays.find((weekDay) => weekDay.id === item.dayId);
             const activity = getActivityType(item.type);
 
             return (
@@ -289,16 +498,16 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
               >
                 <div>
                   <p className="font-extrabold text-brand-ink">
-                    {day?.short} · {item.time} · {activity.label}
+                    {getAdminDateLabel(item)} · {item.time} · {activity.label}
                   </p>
                   <p className="text-sm text-slate-600">
                     {item.type === 'tournament'
-                      ? item.level
-                      : `${item.level}, ${item.duration} мин, ${item.coach}, ${item.price}`}
+                      ? `${item.level}${item.format ? `, ${item.format}` : ''}${item.registrationUrl ? `, ${item.registrationUrl}` : ''}`
+                      : `${item.level}${item.format ? `, ${item.format}` : ''}, ${item.duration} мин, ${item.coach}, ${item.price}`}
                   </p>
                 </div>
                 <button
-                  className="rounded-full border border-red-200 px-3 py-1.5 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex min-h-9 items-center justify-center rounded-full border border-red-200 px-4 py-2 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
                   disabled={isSaving}
                   onClick={() => onDeleteItem(item.id)}
                   type="button"
@@ -315,7 +524,6 @@ function ScheduleAdmin({ activeDayId, isSaving, items, onAddItem, onDeleteItem, 
 }
 
 export function ScheduleSection() {
-  const [activeDayId, setActiveDayId] = useState(weekDays[0].id);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [adminToken, setAdminToken] = useState('');
@@ -323,12 +531,16 @@ export function ScheduleSection() {
   const [saveStatus, setSaveStatus] = useState('Загрузка расписания...');
   const [scheduleItems, setScheduleItems] = useState(() => sortScheduleItems(getScheduleFromStorage()));
 
-  const activeDay = weekDays.find((day) => day.id === activeDayId) || weekDays[0];
-  const activeDayItems = useMemo(
-    () => scheduleItems.filter((item) => item.dayId === activeDayId),
-    [activeDayId, scheduleItems],
+  const upcomingItems = useMemo(
+    () => {
+      const now = Date.now();
+
+      return [...scheduleItems]
+        .filter((item) => getEventDateTime(item) > now)
+        .sort((first, second) => getEventDateTime(first) - getEventDateTime(second));
+    },
+    [scheduleItems],
   );
-  const nextEvent = activeDayItems[0];
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -352,7 +564,7 @@ export function ScheduleSection() {
           return;
         }
 
-        const sortedItems = sortScheduleItems(items);
+        const sortedItems = sortScheduleItems(mergeScheduleItems(items, getScheduleFromStorage()));
         setScheduleItems(sortedItems);
         saveScheduleToStorage(sortedItems);
         setSaveStatus('Расписание загружено с сервера.');
@@ -375,7 +587,7 @@ export function ScheduleSection() {
 
     try {
       const serverItems = await saveScheduleToApi(sortedItems, adminToken);
-      const sortedServerItems = sortScheduleItems(serverItems);
+      const sortedServerItems = sortScheduleItems(mergeScheduleItems(serverItems, sortedItems));
       setScheduleItems(sortedServerItems);
       saveScheduleToStorage(sortedServerItems);
       setSaveStatus('Расписание сохранено на сервере.');
@@ -400,20 +612,15 @@ export function ScheduleSection() {
   }
 
   return (
-    <section className="pt-6" id="schedule">
+    <section className="section-block" id="schedule">
       <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#1f5ba8]">Текущая неделя</p>
-          <h2 className="text-3xl font-extrabold leading-none text-brand-ink sm:text-5xl">Расписание клуба</h2>
-          <p className="mt-3 max-w-3xl text-base leading-relaxed text-slate-600">
-            Групповые тренировки, детские занятия и турниры по дням недели. Выберите день, чтобы увидеть время,
-            уровень, тренера и стоимость занятия.
-          </p>
+          <h2 className="section-title">Мероприятия клуба</h2>
         </div>
 
         {isAdminMode && (
           <button
-            className="inline-flex items-center justify-center rounded-full border border-[#b8cbe4] bg-white px-5 py-3 text-sm font-extrabold text-brand-ink transition hover:-translate-y-0.5 hover:bg-[#eef5ff]"
+            className="secondary-button"
             onClick={() => setIsAdminOpen((currentState) => !currentState)}
             type="button"
           >
@@ -422,56 +629,14 @@ export function ScheduleSection() {
         )}
       </div>
 
-      <div className="mb-5 flex gap-2 overflow-x-auto pb-2 no-scrollbar" role="tablist" aria-label="Дни недели">
-        {weekDays.map((day) => {
-          const dayItems = scheduleItems.filter((item) => item.dayId === day.id);
-          const isActive = day.id === activeDayId;
-
-          return (
-            <button
-              aria-selected={isActive}
-              className={`min-w-[5rem] rounded-2xl px-4 py-3 text-left transition ${
-                isActive
-                  ? 'bg-[#14345d] text-white'
-                  : 'bg-white text-brand-ink hover:bg-[#eef5ff]'
-              }`}
-              key={day.id}
-              onClick={() => setActiveDayId(day.id)}
-              role="tab"
-              type="button"
-            >
-              <span className="block text-lg font-black">{day.short}</span>
-              <span className={`block text-xs font-bold ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
-                {dayItems.length ? `${dayItems.length} активн.` : 'свободно'}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mb-4 grid gap-3 rounded-[1.5rem] border border-[#c7d6e9] bg-white px-5 py-4 md:grid-cols-3">
-        <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#1f5ba8]">Выбранный день</p>
-          <p className="mt-1 text-xl font-extrabold text-brand-ink">{activeDay.label}</p>
-        </div>
-        <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#1f5ba8]">Активности</p>
-          <p className="mt-1 text-xl font-extrabold text-brand-ink">{activeDayItems.length || 'Нет'}</p>
-        </div>
-        <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#1f5ba8]">Ближайший старт</p>
-          <p className="mt-1 text-xl font-extrabold text-brand-ink">{nextEvent ? nextEvent.time : 'Свободно'}</p>
-        </div>
-      </div>
-
       <div className="space-y-4">
-        {activeDayItems.length === 0 ? (
-          <div className="rounded-[1.5rem] border border-dashed border-[#b8cbe4] bg-white px-5 py-8 text-center">
-            <p className="text-lg font-extrabold text-brand-ink">На этот день активностей нет</p>
-            <p className="mt-2 text-sm text-slate-600">Выберите другой день или проверьте расписание позже.</p>
+        {upcomingItems.length === 0 ? (
+          <div className="surface-card border-dashed px-5 py-8 text-center">
+            <p className="text-lg font-extrabold text-brand-ink">Мероприятия пока не добавлены</p>
+            <p className="mt-2 text-sm text-slate-600">Проверьте расписание позже.</p>
           </div>
         ) : (
-          activeDayItems.map((item) => <ActivityCard item={item} key={item.id} />)
+          upcomingItems.map((item) => <ActivityCard item={item} key={item.id} />)
         )}
       </div>
 
@@ -483,7 +648,6 @@ export function ScheduleSection() {
         >
           <div className="overflow-hidden">
             <ScheduleAdmin
-              activeDayId={activeDayId}
               isSaving={isSaving}
               items={scheduleItems}
               onAddItem={addItem}
