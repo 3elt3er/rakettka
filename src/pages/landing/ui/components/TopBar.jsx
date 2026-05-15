@@ -29,9 +29,9 @@ function PhoneIcon() {
 
 export function TopBar() {
   return (
-    <header className="landing-topbar sticky top-0 z-20 border-b border-slate-500/30 px-5 py-2 sm:px-6">
+    <header className="landing-topbar sticky top-0 z-20 border-b border-slate-500/30 px-3 py-2 sm:px-6">
       <div className="flex items-center gap-3">
-        <a aria-label="RakeTTka" className="brand-logo shrink-0 text-[2rem] leading-none sm:text-[1.7rem] lg:text-[3rem]" href="#top">
+        <a aria-label="RakeTTka" className="brand-logo shrink-0 text-[1.55rem] leading-none sm:text-[1.7rem] lg:text-[3rem]" href="#top">
           Rake<span className="brand-logo-accent">TT</span>ka
         </a>
 
@@ -68,9 +68,9 @@ export function TopBar() {
         </div>
       </div>
 
-      <nav className="mt-3 flex flex-wrap items-center justify-evenly gap-x-4 gap-y-1 border-t border-white/10 pt-2 text-sm font-extrabold text-slate-100 md:hidden">
+      <nav className="no-scrollbar -mx-3 mt-2 flex items-center gap-2 overflow-x-auto border-t border-white/10 px-3 pt-2 text-[0.78rem] font-extrabold text-slate-100 md:hidden">
         {navItems.map((item) => (
-          <a className="transition hover:text-white" href={`#${item.id}`} key={`mobile-${item.id}`}>
+          <a className="shrink-0 whitespace-nowrap rounded-full bg-white/10 px-3 py-2 transition hover:bg-white/15 hover:text-white" href={`#${item.id}`} key={`mobile-${item.id}`}>
             {item.label}
           </a>
         ))}

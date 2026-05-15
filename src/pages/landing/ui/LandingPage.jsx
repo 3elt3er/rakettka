@@ -8,13 +8,13 @@ import { TopBar } from '@/pages/landing/ui/components/TopBar';
 
 export function LandingPage() {
   return (
-    <main className="min-h-screen bg-slate-200 px-4 sm:px-6" id="top">
+    <main className="landing-page min-h-screen bg-slate-200" id="top">
       <div className="mx-auto w-full max-w-[75rem]">
         <article className="landing-shell">
           <TopBar />
           <HeroBanner />
 
-          <div className="space-y-12 bg-[#f4f7fb] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+          <div className="space-y-10 bg-[#f4f7fb] px-4 pb-12 pt-7 sm:space-y-12 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
             <AboutSection />
             <div className="-mx-4 h-px bg-slate-300 sm:-mx-6 lg:-mx-8" aria-hidden="true" />
             <PricingSection />

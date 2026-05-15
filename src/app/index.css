@@ -16,7 +16,7 @@
   }
 
   body {
-    @apply m-0 min-h-screen bg-slate-200 antialiased;
+    @apply m-0 min-h-screen overflow-x-hidden bg-slate-200 antialiased;
     color: #243f66;
     font-family: 'Manrope', sans-serif;
   }
@@ -29,6 +29,10 @@
 }
 
 @layer components {
+  .landing-page {
+    @apply px-0;
+  }
+
   .landing-shell {
     @apply overflow-visible rounded-2xl border border-slate-300 bg-[#f4f7fb] shadow-[0_1.4rem_2.8rem_-1.3rem_rgba(15,23,42,.5)];
   }
@@ -71,23 +75,23 @@
   }
 
   .section-title {
-    @apply text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-brand-ink sm:text-[2.5rem];
+    @apply text-[1.7rem] font-extrabold leading-[1.12] tracking-normal text-brand-ink sm:text-[2.5rem] sm:tracking-[-0.03em];
   }
 
   .section-lead {
-    @apply text-base leading-[1.75] text-slate-600 sm:text-lg;
+    @apply text-[0.95rem] leading-[1.65] text-slate-600 sm:text-lg sm:leading-[1.75];
   }
 
   .body-copy {
-    @apply text-base leading-[1.75] text-brand-ink sm:text-lg;
+    @apply text-[0.95rem] leading-[1.65] text-brand-ink sm:text-lg sm:leading-[1.75];
   }
 
   .surface-card {
-    @apply rounded-[1.5rem] border border-[#c7d6e9] bg-white shadow-[0_1rem_2.2rem_-1.7rem_rgba(15,23,42,0.45)];
+    @apply rounded-lg border border-[#c7d6e9] bg-white shadow-[0_1rem_2.2rem_-1.7rem_rgba(15,23,42,0.45)];
   }
 
   .media-card {
-    @apply overflow-hidden rounded-[1.5rem] border border-white/80 bg-white shadow-[0_1rem_2rem_-1.4rem_rgba(15,23,42,0.45)];
+    @apply overflow-hidden rounded-lg border border-white/80 bg-white shadow-[0_1rem_2rem_-1.4rem_rgba(15,23,42,0.45)];
   }
 
   .primary-button {
@@ -136,6 +140,27 @@
 
   .landing-contact-icon {
     @apply inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-300/40 text-[0.62rem] leading-none text-slate-200;
+  }
+
+  @media (max-width: 1399px) {
+    section[id],
+    footer[id],
+    main[id] {
+      scroll-margin-top: 6.5rem;
+    }
+
+    .landing-shell {
+      border-left-width: 0;
+      border-right-width: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .landing-page {
+      @apply px-6 py-5;
+    }
   }
 }
 

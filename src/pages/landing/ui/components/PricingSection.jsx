@@ -155,7 +155,7 @@ export function PricingSection() {
       </div>
 
       <div
-        className={`${isDraggingUI ? 'cursor-grabbing select-none' : 'cursor-grab'} overflow-hidden pb-2`}
+        className={`${isDraggingUI ? 'cursor-grabbing select-none' : 'cursor-grab'} -mx-2 overflow-hidden pb-2 sm:mx-0`}
         onPointerCancel={handlePointerEnd}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}

@@ -41,8 +41,8 @@ export function AboutSection() {
         <h2 className="section-title">О клубе</h2>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:items-center">
-        <div className="body-copy max-w-[38rem] space-y-4">
+      <div className="grid gap-6 lg:grid-cols-[1.05fr_1fr] lg:items-center">
+        <div className="body-copy max-w-none space-y-4 lg:max-w-[38rem]">
           <p>Клуб настольного тенниса RakeTTka — место, где рождается азарт и оттачивается мастерство.</p>
 
           <p>
@@ -52,7 +52,7 @@ export function AboutSection() {
           </p>
         </div>
 
-        <div className="media-card relative h-[21rem] w-full lg:max-w-[34rem] lg:justify-self-end">
+        <div className="media-card relative h-[16rem] w-full sm:h-[21rem] lg:max-w-[34rem] lg:justify-self-end">
           {aboutSlides.map((slide, index) => {
             const shouldRenderSlide = index === activeSlideIndex || loadedSlideIndexes.includes(index);
 

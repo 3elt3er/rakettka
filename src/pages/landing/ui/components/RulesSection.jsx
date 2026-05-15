@@ -74,7 +74,7 @@ export function RulesSection() {
 
   return (
     <section className="section-block" id="rules">
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
+      <div className="grid grid-cols-[minmax(0,1fr)_2.75rem] items-start gap-3 sm:gap-4">
         <div className="min-w-0 space-y-3">
           <h2 className="section-title">
             Правила посещения клуба настольного тенниса RakeTTka
@@ -118,7 +118,7 @@ export function RulesSection() {
                   <li className="bg-white/65 px-4 py-5 sm:px-5" key={rule.title}>
                     <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)]">
                       <div>
-                        <span className="inline-flex h-11 w-11 flex-none items-center justify-center rounded-2xl bg-[#1f5ba8] text-lg font-black text-white shadow-[0_0.8rem_1.4rem_-0.8rem_rgba(31,91,168,0.7)] transition group-hover:-translate-y-0.5">
+                        <span className="inline-flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-[#1f5ba8] text-base font-black text-white shadow-[0_0.8rem_1.4rem_-0.8rem_rgba(31,91,168,0.7)] transition group-hover:-translate-y-0.5 sm:h-11 sm:w-11 sm:text-lg">
                           {index + 1}
                         </span>
                       </div>
@@ -130,9 +130,9 @@ export function RulesSection() {
                           </h3>
                         </div>
 
-                        <ol className="mt-4 space-y-2 rounded-2xl bg-[#f4f7fb] px-4 py-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+                        <ol className="mt-4 space-y-2 rounded-lg bg-[#f4f7fb] px-3 py-3 text-sm leading-relaxed text-slate-600 sm:px-4 sm:py-4 sm:text-base">
                           {rule.items.map((item, itemIndex) => (
-                            <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-2" key={`${index}-${itemIndex}`}>
+                            <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-1.5 sm:gap-2" key={`${index}-${itemIndex}`}>
                               <span className="font-bold text-brand-ink">
                                 {index + 1}.{itemIndex + 1}.
                               </span>
@@ -159,7 +159,7 @@ export function RulesSection() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:self-start">
               <ImageStub
                 alt={rulesIllustration.alt}
-                className="h-[18rem] rounded-[1.5rem] border border-white/70 bg-white/80 sm:h-[20rem] lg:h-[22rem]"
+                className="h-56 rounded-lg border border-white/70 bg-white/80 sm:h-[20rem] lg:h-[22rem]"
                 imageFit="contain"
                 label={rulesIllustration.label}
                 labelClassName="text-xl sm:text-2xl"
@@ -172,7 +172,7 @@ export function RulesSection() {
                   Если какой-то пункт требует уточнения, обратитесь к администратору до начала тренировки, аренды или
                   другого пользования услугами клуба.
                 </p>
-                <div className="mt-5 rounded-2xl bg-[#1f5ba8] px-4 py-3 text-sm font-bold leading-relaxed text-white shadow-[0_0.8rem_1.4rem_-1rem_rgba(31,91,168,0.85)]">
+                <div className="mt-5 rounded-lg bg-[#1f5ba8] px-4 py-3 text-sm font-bold leading-relaxed text-white shadow-[0_0.8rem_1.4rem_-1rem_rgba(31,91,168,0.85)]">
                   Правила помогают сохранять комфортную атмосферу и бережное отношение к пространству клуба.
                 </div>
               </div>

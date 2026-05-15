@@ -199,46 +199,46 @@ function ActivityCard({ item }) {
   ].filter((detail) => detail?.value);
 
   return (
-    <article className="group overflow-hidden rounded-[2rem] border border-[#c7d6e9] bg-white transition hover:-translate-y-1 hover:shadow-[0_1.2rem_2.6rem_-1.3rem_rgba(20,50,85,0.55)]">
+    <article className="group overflow-hidden rounded-lg border border-[#c7d6e9] bg-white transition hover:-translate-y-1 hover:shadow-[0_1.2rem_2.6rem_-1.3rem_rgba(20,50,85,0.55)]">
       <div className="grid lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <div className="flex min-w-0 flex-col p-5 sm:p-6 lg:p-7">
+        <div className="flex min-w-0 flex-col p-4 sm:p-6 lg:p-7">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-[#edf5ff] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-[#1f5ba8]">
+            <span className="rounded-full bg-[#edf5ff] px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.08em] text-[#1f5ba8] sm:text-xs sm:tracking-[0.12em]">
               {activity.badge}
             </span>
-            <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-red-600">
+            <span className="rounded-full bg-red-50 px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.06em] text-red-600 sm:text-xs sm:tracking-[0.08em]">
               Требуется предварительная регистрация
             </span>
           </div>
 
-          <h3 className="mt-4 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-brand-ink">
+          <h3 className="mt-4 text-xl font-extrabold leading-tight tracking-normal text-brand-ink sm:text-2xl sm:tracking-[-0.02em]">
             {activity.title}
           </h3>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[1.25rem] bg-[#14345d] px-4 py-4 text-white">
-              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-100">Дата мероприятия</p>
-              <p className="mt-2 text-xl font-black leading-none sm:text-2xl">{getEventDateLabel(item)}</p>
+            <div className="rounded-lg bg-[#14345d] px-4 py-4 text-white">
+              <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-blue-100 sm:text-xs sm:tracking-[0.16em]">Дата мероприятия</p>
+              <p className="mt-2 text-lg font-black leading-tight sm:text-2xl">{getEventDateLabel(item)}</p>
             </div>
 
-            <div className="rounded-[1.25rem] bg-[#eef5ff] px-4 py-4 text-brand-ink">
-              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#1f5ba8]">Старт</p>
-              <p className="mt-2 text-xl font-black leading-none sm:text-2xl">{item.time}</p>
+            <div className="rounded-lg bg-[#eef5ff] px-4 py-4 text-brand-ink">
+              <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-[#1f5ba8] sm:text-xs sm:tracking-[0.16em]">Старт</p>
+              <p className="mt-2 text-lg font-black leading-tight sm:text-2xl">{item.time}</p>
             </div>
           </div>
 
           <dl className="mt-4 grid flex-1 auto-rows-fr gap-3 sm:grid-cols-2">
             {detailItems.map((detail) => (
-              <div className="flex min-h-24 flex-col justify-center rounded-[1.15rem] bg-[#f4f7fb] px-4 py-3" key={detail.label}>
-                <dt className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#1f5ba8]">{detail.label}</dt>
+              <div className="flex min-h-[4.75rem] flex-col justify-center rounded-lg bg-[#f4f7fb] px-4 py-3 sm:min-h-24" key={detail.label}>
+                <dt className="text-[0.68rem] font-extrabold uppercase tracking-[0.1em] text-[#1f5ba8] sm:text-xs sm:tracking-[0.12em]">{detail.label}</dt>
                 <dd className="mt-1 text-base font-bold leading-snug text-brand-ink">{detail.value}</dd>
               </div>
             ))}
           </dl>
         </div>
 
-        <aside className="flex justify-center min-h-[22rem] flex-col p-4">
-          <div className="relative aspect-[5/4] overflow-hidden rounded-[1.5rem]">
+        <aside className="flex min-h-0 flex-col justify-center p-4 pt-0 sm:p-5 lg:min-h-[22rem] lg:p-4">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-lg sm:aspect-[5/4]">
             <img
               alt={illustration.alt}
               className="absolute inset-0 h-full w-full object-cover object-top"
@@ -251,7 +251,7 @@ function ActivityCard({ item }) {
           {isGroupTraining ? (
             <div className="mt-4 grid grid-cols-2 gap-3">
               <a
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#229ed9] px-4 py-2.5 text-sm font-extrabold text-white shadow-[0_0.9rem_1.5rem_-1rem_rgba(34,158,217,0.9)] transition hover:-translate-y-0.5 hover:bg-[#1d91ca]"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#229ed9] px-3 py-2.5 text-xs font-extrabold text-white shadow-[0_0.9rem_1.5rem_-1rem_rgba(34,158,217,0.9)] transition hover:-translate-y-0.5 hover:bg-[#1d91ca] sm:px-4 sm:text-sm"
                 href={registrationUrl}
                 rel="noopener noreferrer"
                 target="_blank"
@@ -260,7 +260,7 @@ function ActivityCard({ item }) {
                 <TelegramIcon />
               </a>
               <a
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#34c759] px-4 py-2.5 text-sm font-extrabold text-white shadow-[0_0.9rem_1.5rem_-1rem_rgba(52,199,89,0.9)] transition hover:-translate-y-0.5 hover:bg-[#30b753]"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#34c759] px-3 py-2.5 text-xs font-extrabold text-white shadow-[0_0.9rem_1.5rem_-1rem_rgba(52,199,89,0.9)] transition hover:-translate-y-0.5 hover:bg-[#30b753] sm:px-4 sm:text-sm"
                 href="tel:+79060668806"
               >
                 Позвонить
@@ -361,7 +361,7 @@ function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, save
           <p className="mt-1 text-sm text-slate-500">{saveStatus}</p>
         </div>
         <button
-          className="secondary-button self-start"
+          className="secondary-button w-full sm:w-auto sm:self-start"
           disabled={isSaving}
           onClick={onReset}
           type="button"
@@ -370,7 +370,7 @@ function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, save
         </button>
       </div>
 
-      <form className="grid gap-4 md:grid-cols-3" onSubmit={handleSubmit}>
+      <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" onSubmit={handleSubmit}>
         <label className="space-y-1 text-sm font-bold text-brand-ink">
           Тип активности
           <select
@@ -454,7 +454,7 @@ function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, save
 
         {!isTournament && (
           <>
-            <label className="space-y-1 text-sm font-bold text-brand-ink md:col-span-2">
+            <label className="space-y-1 text-sm font-bold text-brand-ink sm:col-span-2">
               Тренер
               <input
                 className="form-control"
@@ -481,7 +481,7 @@ function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, save
         </label>
 
         {isTournament && (
-          <label className="space-y-1 text-sm font-bold text-brand-ink md:col-span-2">
+          <label className="space-y-1 text-sm font-bold text-brand-ink sm:col-span-2">
             Ссылка для регистрации
             <input
               className="form-control"
@@ -494,7 +494,7 @@ function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, save
           </label>
         )}
 
-        <div className="flex items-end md:col-span-3">
+        <div className="flex items-end sm:col-span-2 lg:col-span-3">
           <button
             className="primary-button w-full"
             disabled={isSaving}
@@ -507,9 +507,9 @@ function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, save
 
       {formError && <p className="mt-3 text-sm font-bold text-red-600">{formError}</p>}
 
-      <div className="mt-6 grid gap-3 md:grid-cols-2">
+      <div className="mt-6 grid gap-3 lg:grid-cols-2">
         {items.length === 0 ? (
-          <p className="rounded-2xl bg-[#f4f7fb] px-4 py-5 text-sm text-slate-600 md:col-span-2">
+          <p className="rounded-lg bg-[#f4f7fb] px-4 py-5 text-sm text-slate-600 lg:col-span-2">
             Расписание пока пустое. Добавьте первую активность через форму выше.
           </p>
         ) : (
@@ -518,21 +518,21 @@ function ScheduleAdmin({ isSaving, items, onAddItem, onDeleteItem, onReset, save
 
             return (
               <div
-                className="flex items-center justify-between gap-3 rounded-2xl bg-[#f4f7fb] px-4 py-3"
+                className="flex flex-col items-start justify-between gap-3 rounded-lg bg-[#f4f7fb] px-4 py-3 sm:flex-row sm:items-center"
                 key={item.id}
               >
-                <div>
+                <div className="min-w-0">
                   <p className="font-extrabold text-brand-ink">
                     {getAdminDateLabel(item)} · {item.time} · {activity.label}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="break-words text-sm text-slate-600">
                     {item.type === 'tournament'
                       ? `${item.level}${item.format ? `, ${item.format}` : ''}${item.registrationUrl ? `, ${item.registrationUrl}` : ''}`
                       : `${item.level}${item.format ? `, ${item.format}` : ''}, ${item.duration} мин, ${item.coach}, ${item.price}`}
                   </p>
                 </div>
                 <button
-                  className="inline-flex min-h-9 items-center justify-center rounded-full border border-red-200 px-4 py-2 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex min-h-9 w-full items-center justify-center rounded-full border border-red-200 px-4 py-2 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                   disabled={isSaving}
                   onClick={() => onDeleteItem(item.id)}
                   type="button"

@@ -55,10 +55,10 @@ export function ContactsFooter() {
 
   return (
     <section className="sticky bottom-0 z-20" id="contacts">
-      <div className="landing-footer relative border-t border-white/10 px-4 pb-3 pt-5 text-xs font-semibold text-slate-100 sm:px-6 sm:pb-4 sm:pt-4 sm:text-sm">
+      <div className="landing-footer relative border-t border-white/10 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-6 text-xs font-semibold text-slate-100 sm:px-6 sm:pb-4 sm:pt-4 sm:text-sm">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
           <button
-            className="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#4d82dc] to-[#2f62b4] px-6 py-2 text-base font-black uppercase tracking-wide text-white shadow-[0_1rem_1.8rem_-0.9rem_rgba(47,98,180,0.95)] ring-2 ring-white/25 transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#3d72c8] sm:px-11 sm:text-lg"
+            className="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#4d82dc] to-[#2f62b4] px-5 py-2 text-sm font-black uppercase tracking-wide text-white shadow-[0_1rem_1.8rem_-0.9rem_rgba(47,98,180,0.95)] ring-2 ring-white/25 transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#3d72c8] sm:px-11 sm:text-lg"
             onClick={() => setIsBookingModalOpen(true)}
             type="button"
           >
@@ -66,12 +66,12 @@ export function ContactsFooter() {
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8">
+          <div className="flex min-w-0 items-center gap-2">
             <span className={footerIconClassName}>
               <LocationIcon />
             </span>
-            <span className="text-slate-100/90">г. Москва, ул. Нежинская, д. 17, к. 4, 3 этаж</span>
+            <span className="min-w-0 text-slate-100/90">г. Москва, ул. Нежинская, д. 17, к. 4, 3 этаж</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -88,10 +88,10 @@ export function ContactsFooter() {
       {isBookingModalOpen && (
         <div
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/55 px-3 pb-3 pt-10 sm:items-center sm:px-4 sm:pb-0 sm:pt-0"
           role="dialog"
         >
-          <div className="w-full max-w-md rounded-[1.5rem] bg-white p-5 text-brand-ink shadow-[0_1.4rem_3rem_-1.4rem_rgba(15,23,42,0.75)] sm:p-6">
+          <div className="max-h-full w-full max-w-md overflow-y-auto rounded-lg bg-white p-5 text-brand-ink shadow-[0_1.4rem_3rem_-1.4rem_rgba(15,23,42,0.75)] sm:p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="section-kicker">Бронирование</p>
@@ -108,7 +108,7 @@ export function ContactsFooter() {
               </button>
             </div>
 
-            <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-2xl bg-[#f4f7fb] px-4 py-4 text-sm font-bold leading-relaxed text-brand-ink">
+            <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-lg bg-[#f4f7fb] px-4 py-4 text-sm font-bold leading-relaxed text-brand-ink">
               <input
                 checked={isRulesAccepted}
                 className="mt-1 h-4 w-4 accent-[#1f5ba8]"
@@ -119,10 +119,10 @@ export function ContactsFooter() {
             </label>
 
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
-              <button className="secondary-button" onClick={closeBookingModal} type="button">
+              <button className="secondary-button w-full sm:w-auto" onClick={closeBookingModal} type="button">
                 Отмена
               </button>
-              <button className="primary-button" disabled={!isRulesAccepted} onClick={openBookingService} type="button">
+              <button className="primary-button w-full sm:w-auto" disabled={!isRulesAccepted} onClick={openBookingService} type="button">
                 Перейти к бронированию
               </button>
             </div>
