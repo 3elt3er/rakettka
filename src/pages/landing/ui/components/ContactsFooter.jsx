@@ -54,7 +54,7 @@ export function ContactsFooter() {
   };
 
   return (
-    <section className="sticky bottom-0 z-20" id="contacts">
+    <section className="z-20 min-[1400px]:sticky min-[1400px]:bottom-0" id="contacts">
       <div className="landing-footer relative border-t border-white/10 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-6 text-xs font-semibold text-slate-100 sm:px-6 sm:pb-4 sm:pt-4 sm:text-sm">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
           <button

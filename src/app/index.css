@@ -13,18 +13,21 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background: #172d4d;
   }
 
   body {
-    @apply m-0 min-h-screen overflow-x-hidden bg-slate-200 antialiased;
+    @apply m-0 min-h-screen overflow-x-hidden antialiased;
+    background: #172d4d;
     color: #243f66;
     font-family: 'Manrope', sans-serif;
+    overscroll-behavior-y: none;
   }
 
   section[id],
   footer[id],
   main[id] {
-    scroll-margin-top: 8.5rem;
+    scroll-margin-top: 1rem;
   }
 }
 
@@ -143,12 +146,6 @@
   }
 
   @media (max-width: 1399px) {
-    section[id],
-    footer[id],
-    main[id] {
-      scroll-margin-top: 6.5rem;
-    }
-
     .landing-shell {
       border-left-width: 0;
       border-right-width: 0;
@@ -158,8 +155,14 @@
   }
 
   @media (min-width: 1400px) {
+    section[id],
+    footer[id],
+    main[id] {
+      scroll-margin-top: 8.5rem;
+    }
+
     .landing-page {
-      @apply px-6 py-5;
+      @apply px-6;
     }
   }
 }

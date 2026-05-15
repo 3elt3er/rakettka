@@ -29,7 +29,7 @@ function PhoneIcon() {
 
 export function TopBar() {
   return (
-    <header className="landing-topbar sticky top-0 z-20 border-b border-slate-500/30 px-3 py-2 sm:px-6">
+    <header className="landing-topbar z-20 border-b border-slate-500/30 px-3 py-2 sm:px-6 min-[1400px]:sticky min-[1400px]:top-0">
       <div className="flex items-center gap-3">
         <a aria-label="RakeTTka" className="brand-logo shrink-0 text-[1.55rem] leading-none sm:text-[1.7rem] lg:text-[3rem]" href="#top">
           Rake<span className="brand-logo-accent">TT</span>ka
