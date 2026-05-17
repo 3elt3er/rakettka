@@ -37,7 +37,7 @@
   }
 
   .landing-shell {
-    @apply overflow-visible rounded-2xl border border-slate-300 bg-[#f4f7fb] shadow-[0_1.4rem_2.8rem_-1.3rem_rgba(15,23,42,.5)];
+    @apply overflow-visible rounded-2xl border-x border-slate-300 bg-[#f4f7fb] shadow-[0_1.4rem_2.8rem_-1.3rem_rgba(15,23,42,.5)];
   }
 
   .landing-topbar {

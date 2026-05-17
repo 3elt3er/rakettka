@@ -15,23 +15,27 @@ export function PriceCard({ service, className = '' }) {
         />
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex min-h-[5.75rem] items-end justify-center bg-gradient-to-t from-[#17345d]/90 via-[#17345d]/45 to-transparent px-4 pb-5 pt-10 sm:min-h-[6.25rem] lg:min-h-[7rem]">
-          <h4 className="w-full max-w-[32rem] whitespace-nowrap text-center text-[clamp(0.9rem,3.7vw,1.6rem)] font-bold leading-tight tracking-normal text-white lg:tracking-[-0.03em]">
+          <h4 className="w-full max-w-[32rem] whitespace-nowrap text-center text-[clamp(1.1rem,5vw,1.45rem)] font-extrabold leading-tight tracking-normal text-white lg:max-w-[24rem] lg:whitespace-normal lg:text-[1.45rem] lg:tracking-normal xl:text-[1.5rem]">
             {service.title}
           </h4>
         </div>
       </div>
 
       <div className="grid flex-1 grid-rows-2 gap-3 px-4 py-4 text-brand-ink sm:px-5 lg:gap-4 lg:py-5">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
-          <span className="min-w-0 whitespace-nowrap text-[clamp(0.78rem,3.6vw,1rem)] leading-tight">{service.onceLabel}</span>
-          <span className="min-w-0 whitespace-nowrap text-right text-[clamp(0.9rem,4vw,1.3rem)] font-black leading-tight">
+        <div className="grid grid-cols-[minmax(0,1fr)_max-content] items-start gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(8rem,auto)]">
+          <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(0.78rem,3.6vw,1rem)] leading-tight lg:whitespace-normal lg:text-base">
+            {service.onceLabel}
+          </span>
+          <span className="whitespace-nowrap text-right text-[clamp(0.9rem,4vw,1.3rem)] font-black leading-tight">
             {service.oncePrice}
           </span>
         </div>
 
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
-          <span className="min-w-0 whitespace-nowrap text-[clamp(0.78rem,3.6vw,1rem)] leading-tight">{service.packLabel}</span>
-          <span className="min-w-0 whitespace-nowrap text-right text-[clamp(0.9rem,4vw,1.3rem)] font-black leading-tight">
+        <div className="grid grid-cols-[minmax(0,1fr)_max-content] items-start gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(8rem,auto)]">
+          <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(0.78rem,3.6vw,1rem)] leading-tight lg:whitespace-normal lg:text-base">
+            {service.packLabel}
+          </span>
+          <span className="whitespace-nowrap text-right text-[clamp(0.9rem,4vw,1.3rem)] font-black leading-tight">
             {service.packPrice}
           </span>
         </div>
