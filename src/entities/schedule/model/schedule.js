@@ -1,4 +1,4 @@
-export const SCHEDULE_STORAGE_KEY = 'rakettka.weeklySchedule.v1';
+export const SCHEDULE_STORAGE_KEY = 'rakettka.weeklySchedule.v2';
 export const SCHEDULE_API_URL = '/api/schedule';
 
 export const weekDays = [
@@ -56,8 +56,8 @@ export const defaultScheduleItems = [
   {
     id: 'default-tournament-thursday',
     type: 'tournament',
-    dayId: 'sunday',
-    date: '2026-05-10',
+    dayId: 'wednesday',
+    date: '2026-05-20',
     time: '19:00',
     duration: 60,
     level: 'МАКС 150',

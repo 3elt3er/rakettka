@@ -48,8 +48,8 @@ const fallbackSchedule = {
     {
       id: 'default-tournament-thursday',
       type: 'tournament',
-      dayId: 'sunday',
-      date: '2026-05-10',
+      dayId: 'wednesday',
+      date: '2026-05-20',
       time: '19:00',
       duration: 60,
       level: 'МАКС 150',

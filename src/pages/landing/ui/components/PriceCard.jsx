@@ -1,4 +1,7 @@
 export function PriceCard({ service, className = '' }) {
+  const labelClassName =
+    'min-w-0 text-[clamp(0.78rem,3.6vw,1rem)] leading-tight [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden lg:block lg:overflow-visible lg:text-base';
+
   return (
     <article
       className={`mx-auto flex h-full min-h-[25rem] w-full max-w-[34rem] flex-col overflow-hidden rounded-lg bg-white sm:min-h-[28rem] lg:min-h-[32rem] ${className}`}
@@ -23,7 +26,7 @@ export function PriceCard({ service, className = '' }) {
 
       <div className="grid flex-1 grid-rows-2 gap-3 px-4 py-4 text-brand-ink sm:px-5 lg:gap-4 lg:py-5">
         <div className="grid grid-cols-[minmax(0,1fr)_max-content] items-start gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(8rem,auto)]">
-          <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(0.78rem,3.6vw,1rem)] leading-tight lg:whitespace-normal lg:text-base">
+          <span className={labelClassName}>
             {service.onceLabel}
           </span>
           <span className="whitespace-nowrap text-right text-[clamp(0.9rem,4vw,1.3rem)] font-black leading-tight">
@@ -32,7 +35,7 @@ export function PriceCard({ service, className = '' }) {
         </div>
 
         <div className="grid grid-cols-[minmax(0,1fr)_max-content] items-start gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(8rem,auto)]">
-          <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(0.78rem,3.6vw,1rem)] leading-tight lg:whitespace-normal lg:text-base">
+          <span className={labelClassName}>
             {service.packLabel}
           </span>
           <span className="whitespace-nowrap text-right text-[clamp(0.9rem,4vw,1.3rem)] font-black leading-tight">
