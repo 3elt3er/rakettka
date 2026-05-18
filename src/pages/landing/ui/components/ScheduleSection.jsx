@@ -112,33 +112,6 @@ function formatPrice(price) {
   return /^\d+$/.test(trimmedPrice) ? `${trimmedPrice} ₽` : trimmedPrice;
 }
 
-function mergeScheduleItems(primaryItems, fallbackItems) {
-  const fallbackById = new Map(fallbackItems.map((item) => [item.id, item]));
-  const mergedItems = primaryItems.map((item) => {
-    const fallbackItem = fallbackById.get(item.id);
-
-    if (!fallbackItem) {
-      return item;
-    }
-
-    return {
-      ...fallbackItem,
-      ...item,
-      date: item.date || fallbackItem.date || '',
-      format: item.format || fallbackItem.format || '',
-      registrationUrl: item.registrationUrl || fallbackItem.registrationUrl || '',
-    };
-  });
-
-  fallbackItems.forEach((item) => {
-    if (!mergedItems.some((mergedItem) => mergedItem.id === item.id)) {
-      mergedItems.push(item);
-    }
-  });
-
-  return mergedItems;
-}
-
 const initialFormState = {
   type: 'adultGroup',
   dayId: 'monday',
@@ -589,7 +562,7 @@ export function ScheduleSection() {
           return;
         }
 
-        const sortedItems = sortScheduleItems(mergeScheduleItems(items, getScheduleFromStorage()));
+        const sortedItems = sortScheduleItems(items);
         setScheduleItems(sortedItems);
         saveScheduleToStorage(sortedItems);
         setSaveStatus('Расписание загружено с сервера.');
@@ -612,7 +585,7 @@ export function ScheduleSection() {
 
     try {
       const serverItems = await saveScheduleToApi(sortedItems, adminToken);
-      const sortedServerItems = sortScheduleItems(mergeScheduleItems(serverItems, sortedItems));
+      const sortedServerItems = sortScheduleItems(serverItems);
       setScheduleItems(sortedServerItems);
       saveScheduleToStorage(sortedServerItems);
       setSaveStatus('Расписание сохранено на сервере.');
