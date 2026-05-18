@@ -1,4 +1,3 @@
-export const SCHEDULE_STORAGE_KEY = 'rakettka.weeklySchedule.v2';
 export const SCHEDULE_API_URL = '/api/schedule';
 
 export const weekDays = [
@@ -115,32 +114,6 @@ export function createScheduleItem(values) {
 
 export function getActivityType(type) {
   return activityTypes[type] || activityTypes.adultGroup;
-}
-
-export function getScheduleFromStorage() {
-  if (typeof window === 'undefined') {
-    return defaultScheduleItems;
-  }
-
-  try {
-    const savedSchedule = window.localStorage.getItem(SCHEDULE_STORAGE_KEY);
-    if (!savedSchedule) {
-      return defaultScheduleItems;
-    }
-
-    const parsedSchedule = JSON.parse(savedSchedule);
-    return Array.isArray(parsedSchedule) ? parsedSchedule : defaultScheduleItems;
-  } catch {
-    return defaultScheduleItems;
-  }
-}
-
-export function saveScheduleToStorage(items) {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  window.localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(items));
 }
 
 export function sortScheduleItems(items) {

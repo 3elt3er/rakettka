@@ -5,9 +5,7 @@ import {
   defaultScheduleItems,
   fetchScheduleFromApi,
   getActivityType,
-  getScheduleFromStorage,
   saveScheduleToApi,
-  saveScheduleToStorage,
   sortScheduleItems,
   weekDays,
 } from '@/entities/schedule/model/schedule';
@@ -527,7 +525,7 @@ export function ScheduleSection() {
   const [adminToken, setAdminToken] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState('Загрузка расписания...');
-  const [scheduleItems, setScheduleItems] = useState(() => sortScheduleItems(getScheduleFromStorage()));
+  const [scheduleItems, setScheduleItems] = useState([]);
 
   const upcomingItems = useMemo(
     () => {
@@ -564,12 +562,12 @@ export function ScheduleSection() {
 
         const sortedItems = sortScheduleItems(items);
         setScheduleItems(sortedItems);
-        saveScheduleToStorage(sortedItems);
         setSaveStatus('Расписание загружено с сервера.');
       })
       .catch(() => {
         if (isMounted) {
-          setSaveStatus('Сервер расписания недоступен, используется локальная копия.');
+          setScheduleItems([]);
+          setSaveStatus('Сервер расписания недоступен.');
         }
       });
 
@@ -587,7 +585,6 @@ export function ScheduleSection() {
       const serverItems = await saveScheduleToApi(sortedItems, adminToken);
       const sortedServerItems = sortScheduleItems(serverItems);
       setScheduleItems(sortedServerItems);
-      saveScheduleToStorage(sortedServerItems);
       setSaveStatus('Расписание сохранено на сервере.');
     } catch (error) {
       setSaveStatus(error.message || 'Не удалось сохранить расписание.');
