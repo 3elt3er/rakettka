@@ -1,4 +1,3 @@
-import { createReadStream } from 'node:fs';
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -72,13 +71,16 @@ const fallbackSchedule = {
 };
 
 function sendJson(response, statusCode, payload) {
+  const body = JSON.stringify(payload);
+
   response.writeHead(statusCode, {
     'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Token',
     'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
     'Access-Control-Allow-Origin': '*',
+    'Content-Length': Buffer.byteLength(body),
     'Content-Type': 'application/json; charset=utf-8',
   });
-  response.end(JSON.stringify(payload));
+  response.end(body);
 }
 
 function isAuthorized(request) {
@@ -184,14 +186,21 @@ async function serveStatic(request, response) {
       throw new Error('Not a file');
     }
 
+    const fileBuffer = request.method === 'HEAD' ? null : await readFile(resolvedPath);
     response.writeHead(200, {
+      'Content-Length': fileStat.size,
       'Content-Type': contentTypes[extname(resolvedPath)] || 'application/octet-stream',
     });
-    createReadStream(resolvedPath).pipe(response);
+    response.end(fileBuffer);
   } catch {
     const indexPath = join(distDir, 'index.html');
-    response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    createReadStream(indexPath).pipe(response);
+    const fileStat = await stat(indexPath);
+    const fileBuffer = request.method === 'HEAD' ? null : await readFile(indexPath);
+    response.writeHead(200, {
+      'Content-Length': fileStat.size,
+      'Content-Type': 'text/html; charset=utf-8',
+    });
+    response.end(fileBuffer);
   }
 }
 
