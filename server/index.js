@@ -9,7 +9,8 @@ const rootDir = resolve(__dirname, '..');
 const distDir = resolve(rootDir, 'dist');
 const dataDir = resolve(__dirname, 'data');
 const scheduleFile = resolve(dataDir, 'schedule.json');
-const port = Number(process.env.PORT || 4174);
+const host = process.env.HOST || '0.0.0.0';
+const port = Number(process.env.PORT || 3000);
 const adminToken = process.env.ADMIN_TOKEN || '';
 
 const contentTypes = {
@@ -209,7 +210,7 @@ const server = createServer(async (request, response) => {
   }
 });
 
-server.listen(port, () => {
-  console.log(`Rakettka server is running on http://localhost:${port}`);
+server.listen(port, host, () => {
+  console.log(`Rakettka server is running on http://${host}:${port}`);
   console.log(adminToken ? 'Schedule admin API is protected by ADMIN_TOKEN.' : 'Schedule admin API is open locally.');
 });
