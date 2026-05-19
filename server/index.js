@@ -83,6 +83,17 @@ function sendJson(response, statusCode, payload) {
   response.end(body);
 }
 
+function sendHealth(request, response) {
+  const body = 'OK';
+
+  response.writeHead(200, {
+    'Content-Length': Buffer.byteLength(body),
+    'Content-Type': 'text/plain; charset=utf-8',
+  });
+
+  response.end(request.method === 'HEAD' ? undefined : body);
+}
+
 function isAuthorized(request) {
   if (!adminToken) {
     return true;
@@ -208,6 +219,11 @@ const server = createServer(async (request, response) => {
   try {
     const url = new URL(request.url, `http://${request.headers.host}`);
 
+    if (url.pathname === '/api/health') {
+      sendHealth(request, response);
+      return;
+    }
+
     if (url.pathname === '/api/schedule') {
       await handleScheduleApi(request, response);
       return;
@@ -223,3 +239,14 @@ server.listen(port, host, () => {
   console.log(`Rakettka server is running on http://${host}:${port}`);
   console.log(adminToken ? 'Schedule admin API is protected by ADMIN_TOKEN.' : 'Schedule admin API is open locally.');
 });
+
+function shutdown(signal) {
+  console.log(`${signal} received, shutting down gracefully.`);
+
+  server.close(() => {
+    process.exit(0);
+  });
+}
+
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
