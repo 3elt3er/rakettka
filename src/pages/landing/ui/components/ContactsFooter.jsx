@@ -87,6 +87,10 @@ export function ContactsFooter() {
             </a>
           </div>
         </div>
+
+        <p className="mt-2 text-[0.7rem] font-medium text-slate-100/60 sm:text-xs">
+          Осмачкина Екатерина Владимировна, ИНН 773474336577
+        </p>
       </div>
 
       {isBookingModalOpen && (
