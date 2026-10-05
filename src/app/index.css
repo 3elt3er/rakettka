@@ -181,3 +181,16 @@
     display: none;
   }
 }
+
+/* GM+ booking modal (gmplus.ru/embed.js): its white window is 460px wide while the dark booking
+   card inside is capped at 440px, which leaves a white strip on the right. Match the window to the
+   card and make the close button readable on both the dark card and the white fallback. */
+#gmplus-modal [data-gmp-modal-window] {
+  max-width: 440px !important;
+  border-radius: 14px !important;
+}
+
+#gmplus-modal [data-gmp-modal-window] > button {
+  background: rgba(128, 128, 128, 0.25) !important;
+  color: #9a9a9a !important;
+}
