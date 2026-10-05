@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 const bookingUrl = 'https://rakettka.rubitime.ru/';
 
+const rentButtonClassName =
+  'inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#4d82dc] to-[#2f62b4] px-5 py-2 text-sm font-black uppercase tracking-wide text-white shadow-[0_1rem_1.8rem_-0.9rem_rgba(47,98,180,0.95)] ring-2 ring-white/25 transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#3d72c8] sm:px-11 sm:text-lg';
+
 const footerIconClassName =
   'inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-[#4d82dc] to-[#3d6fca] text-white shadow-[0_0.7rem_1.2rem_-0.8rem_rgba(75,129,220,0.9)] ring-1 ring-white/15 sm:h-8 sm:w-8';
 
@@ -59,13 +62,9 @@ export function ContactsFooter() {
 
   return (
     <section className="z-20 min-[1400px]:sticky min-[1400px]:bottom-0" id="contacts">
-      <div className="landing-footer relative border-t border-white/10 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-6 text-xs font-semibold text-slate-100 sm:px-6 sm:pb-4 sm:pt-4 sm:text-sm">
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
-          <button
-            className="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#4d82dc] to-[#2f62b4] px-5 py-2 text-sm font-black uppercase tracking-wide text-white shadow-[0_1rem_1.8rem_-0.9rem_rgba(47,98,180,0.95)] ring-2 ring-white/25 transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#3d72c8] sm:px-11 sm:text-lg"
-            onClick={() => setIsBookingModalOpen(true)}
-            type="button"
-          >
+      <div className="landing-footer relative border-t border-white/10 px-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-4 text-xs font-semibold text-slate-100 sm:px-6 sm:text-sm md:pb-4">
+        <div className="absolute left-1/2 top-0 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+          <button className={rentButtonClassName} onClick={() => setIsBookingModalOpen(true)} type="button">
             Аренда стола
           </button>
         </div>
@@ -92,6 +91,19 @@ export function ContactsFooter() {
           Осмачкина Екатерина Владимировна, ИНН 773474336577
         </p>
       </div>
+
+      {/* On phones the rent button floats over the page so it is always reachable. */}
+      {!isBookingModalOpen && (
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center bg-gradient-to-t from-slate-950/35 to-transparent px-4 pb-[calc(0.9rem+env(safe-area-inset-bottom))] pt-8 md:hidden">
+          <button
+            className={`${rentButtonClassName} pointer-events-auto min-h-12 w-full max-w-xs py-3 text-base`}
+            onClick={() => setIsBookingModalOpen(true)}
+            type="button"
+          >
+            Аренда стола
+          </button>
+        </div>
+      )}
 
       {isBookingModalOpen && (
         <div
