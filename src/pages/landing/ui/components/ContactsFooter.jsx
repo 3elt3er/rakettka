@@ -46,10 +46,14 @@ export function ContactsFooter() {
     setIsRulesAccepted(false);
   };
 
+  // The GM+ widget (index.html) opens its booking modal on clicks matching [data-gmplus-booking];
+  // fall back to the old booking site if the widget script failed to load.
   const openBookingService = () => {
     if (!isRulesAccepted) return;
 
-    window.open(bookingUrl, '_blank', 'noopener,noreferrer');
+    if (!window.__gmplusEmbedModal) {
+      window.open(bookingUrl, '_blank', 'noopener,noreferrer');
+    }
     closeBookingModal();
   };
 
@@ -122,7 +126,13 @@ export function ContactsFooter() {
               <button className="secondary-button w-full sm:w-auto" onClick={closeBookingModal} type="button">
                 Отмена
               </button>
-              <button className="primary-button w-full sm:w-auto" disabled={!isRulesAccepted} onClick={openBookingService} type="button">
+              <button
+                className="primary-button w-full sm:w-auto"
+                data-gmplus-booking
+                disabled={!isRulesAccepted}
+                onClick={openBookingService}
+                type="button"
+              >
                 Перейти к бронированию
               </button>
             </div>
