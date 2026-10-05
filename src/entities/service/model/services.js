@@ -36,7 +36,7 @@ export const services = [
     onceLabel: 'Пн-пт 08:00-17:00',
     oncePrice: '700 ₽/час',
     packLabel: 'Пн-пт 17:00-22:00; сб-вс и праздники',
-    packPrice: '900 ₽/час',
+    packPrice: '1000 ₽/час',
     image: serviceIllustrationById.table,
     imageOffsetClassName: 'top-[0.5rem]',
   },
@@ -46,7 +46,7 @@ export const services = [
     onceLabel: 'Пн-пт 08:00-17:00',
     oncePrice: '1200 ₽/час',
     packLabel: 'Пн-пт 17:00-22:00; сб-вс и праздники',
-    packPrice: '1400 ₽/час',
+    packPrice: '1500 ₽/час',
     image: serviceIllustrationById.robot,
   },
 ];
