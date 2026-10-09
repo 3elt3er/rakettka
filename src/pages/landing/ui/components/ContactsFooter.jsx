@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-const bookingUrl = 'https://rakettka.rubitime.ru/';
-
 const rentButtonClassName =
   'inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#4d82dc] to-[#2f62b4] px-5 py-2 text-sm font-black uppercase tracking-wide text-white shadow-[0_1rem_1.8rem_-0.9rem_rgba(47,98,180,0.95)] ring-2 ring-white/25 transition hover:-translate-y-0.5 hover:from-[#5d94ee] hover:to-[#3d72c8] sm:px-11 sm:text-lg';
 
@@ -43,19 +41,22 @@ function PhoneIcon() {
 export function ContactsFooter() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isRulesAccepted, setIsRulesAccepted] = useState(false);
+  const [isBookingUnavailable, setIsBookingUnavailable] = useState(false);
 
   const closeBookingModal = () => {
     setIsBookingModalOpen(false);
     setIsRulesAccepted(false);
+    setIsBookingUnavailable(false);
   };
 
   // The GM+ widget (index.html) opens its booking modal on clicks matching [data-gmplus-booking];
-  // fall back to the old booking site if the widget script failed to load.
+  // if the widget script failed to load, keep our modal open and say booking is unavailable.
   const openBookingService = () => {
     if (!isRulesAccepted) return;
 
     if (!window.__gmplusEmbedModal) {
-      window.open(bookingUrl, '_blank', 'noopener,noreferrer');
+      setIsBookingUnavailable(true);
+      return;
     }
     closeBookingModal();
   };
@@ -137,6 +138,12 @@ export function ContactsFooter() {
               />
               <span>С правилами клуба ознакомлен</span>
             </label>
+
+            {isBookingUnavailable && (
+              <p className="mt-4 rounded-lg bg-[#fdf1f1] px-4 py-3 text-sm font-bold leading-relaxed text-[#b42318]" role="alert">
+                Сервис бронирования временно недоступен, попробуйте позже.
+              </p>
+            )}
 
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
               <button className="secondary-button w-full sm:w-auto" onClick={closeBookingModal} type="button">
